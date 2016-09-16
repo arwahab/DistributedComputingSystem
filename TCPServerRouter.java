@@ -1,5 +1,5 @@
-	import java.net.*;
-   import java.io.*;
+import java.net.*;
+import java.io.*;
 
     public class TCPServerRouter {
        public static void main(String[] args) throws IOException {
@@ -7,7 +7,7 @@
          Object [][] RoutingTable = new Object [10][2]; // routing table
 			int SockNum = 5555; // port number
 			Boolean Running = true;
-			int ind = 0; // indext in the routing table	
+			int ind = 0; // index in the routing table	
 
 			//Accepting connections
          ServerSocket serverSocket = null; // server socket for accepting connections

@@ -7,10 +7,10 @@ public class SThread extends Thread
 {
 	private Object [][] RTable; // routing table
 	private PrintWriter out, outTo; // writers (for writing back to the machine and to destination)
-   private BufferedReader in; // reader (for reading from the machine connected to)
+    private BufferedReader in; // reader (for reading from the machine connected to)
 	private String inputLine, outputLine, destination, addr; // communication strings
 	private Socket outSocket; // socket for communicating with a destination
-	private int ind; // indext in the routing table
+	private int ind; // index in the routing table
 
 	// Constructor
 	SThread(Object [][] Table, Socket toClient, int index) throws IOException
@@ -42,15 +42,21 @@ public class SThread extends Thread
 		System.out.println("Thread interrupted");
 		}
 		
+		
+		long t0, t1, t;
 		// loops through the routing table to find the destination
+		t0 = System.nanoTime();
 		for ( int i=0; i<10; i++) 
 				{
 					if (destination.equals((String) RTable[i][0])){
+						t1 = System.nanoTime();
+						t = t1 - t0;
+						System.out.println("Routing Look-Up Time: " + t);
 						outSocket = (Socket) RTable[i][1]; // gets the socket for communication from the table
 						System.out.println("Found destination: " + destination);
 						outTo = new PrintWriter(outSocket.getOutputStream(), true); // assigns a writer
 				}}
-		
+		   
 		// Communication loop	
 		while ((inputLine = in.readLine()) != null) {
             System.out.println("Client/Server said: " + inputLine);
