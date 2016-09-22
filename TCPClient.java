@@ -3,15 +3,21 @@
 
     public class TCPClient {
        public static void main(String[] args) throws IOException {
+    	   
       	
-			// Variables for setting up connection and communication
+		 // Variables for setting up connection and communication
+    	// File f1 = new File("lengthOutput.txt");
+    	// File f2 = new File("messageTrans.txt");
+
          Socket Socket = null; // socket to connect with ServerRouter
          PrintWriter out = null; // for writing to ServerRouter
          BufferedReader in = null; // for reading form ServerRouter
-			InetAddress addr = InetAddress.getLocalHost();
-			String host = addr.getHostAddress(); // Client machine's IP
-      	String routerName = "10.99.22.210"; // ServerRouter host name
-			int SockNum = 5555; // port number
+		 InetAddress addr = InetAddress.getLocalHost();
+		 String host = addr.getHostAddress(); // Client machine's IP
+      	 //String routerName = "j263-08.cse1.spsu.edu"; // ServerRouter host name
+		  String routerName = "10.99.12.48";
+		 
+		 int SockNum = 5555; // port number
 			
 			// Tries to connect to the ServerRouter
          try {
@@ -29,11 +35,21 @@
             }
 				
       	// Variables for message passing	
-         Reader reader = new FileReader("latin.txt");
-			BufferedReader fromFile =  new BufferedReader(reader); // reader for the string file
+         Reader reader = new FileReader("latin.txt"); 
+         
+         // Writing message to file (for recording data) 
+         PrintWriter writer = new PrintWriter("lengthOutput.txt");
+         // Writing the transmission time 
+         PrintWriter writer2 = new PrintWriter("messageTrans.txt");
+
+         
+         
+         
+         
+		 BufferedReader fromFile =  new BufferedReader(reader, 50000); // reader for the string file -- overriding default character limit 
          String fromServer; // messages received from ServerRouter
          String fromUser; // messages sent to ServerRouter
-			String address ="10.99.27.107"; // destination IP (Server)
+			String address ="10.99.15.66"; // destination IP (Server)
 			long t0, t1, t;
 			
 			// Communication process (initial sends/receives
@@ -56,10 +72,24 @@
             if (fromUser != null) {
                System.out.println("Client: " + fromUser);
                out.println(fromUser); // sending the strings to the Server via ServerRouter
-					t0 = System.currentTimeMillis();
+               // write the length of the message being sent to output.txt
+               writer.println(fromUser.length());
+               t0 = System.currentTimeMillis();
+               writer2.println(t0);
+               
+               
+					
+					
+					
+					
             }
+            
+           
+            
          }
       	
+         writer.close();
+         writer2.close();
 			// closing connections
          out.close();
          in.close();
