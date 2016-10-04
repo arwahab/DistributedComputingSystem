@@ -1,0 +1,4 @@
+ServerRouter: Connected to the router.
+Client said: 169.254.197.199
+Server said: 169.254.197.199
+Time: 1009574 ns
