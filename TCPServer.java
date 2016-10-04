@@ -10,7 +10,7 @@ public class TCPServer {
         BufferedReader in = null; // for reading form ServerRouter
         InetAddress addr = InetAddress.getLocalHost();
         String host = addr.getHostAddress(); // Server machine's IP
-        String routerName = "10.99.22.210"; // ServerRouter host name
+        String routerName = "10.99.27.70"; // ServerRouter host name
         int SockNum = 5555; // port number
 
         // Tries to connect to the ServerRouter
@@ -32,7 +32,8 @@ public class TCPServer {
         String fromServer; // messages sent to ServerRouter
         String fromClient; // messages received from ServerRouter
         //String address ="10.5.3.196"; // destination IP (Client)
-        String address = "10.99.21.102";
+        //String address = "10.99.28.128";
+        String address = "10.99.12.181";
 
         // Communication process (initial sends/receives)
         out.println(address);// initial send (IP of the destination Client)
