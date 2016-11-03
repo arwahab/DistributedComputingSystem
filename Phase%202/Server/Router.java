@@ -60,11 +60,22 @@ public class Router
     
     public static void lookUpIP(int ind)
     {
-        requestedIP = sendIP(ind);
-        requestedSocket = sendSocket(ind);
+        requestedIP = getIP(ind);
+        requestedSocket = getSocket(ind);
+        
+        if(requestedIP.equals(null))
+        {
+            System.out.println("Error, could not find node");
+            //Send message to client
+        }
+        else
+        {
+            //Send client requestedIP and requestedSocket
+            //Call threads
+        }
     }
     
-    public static Object sendIP(int ind)
+    public static Object getIP(int ind)
     {
         Object resultIP;
         
@@ -73,7 +84,7 @@ public class Router
         return resultIP;
     }
     
-    public static Object sendSocket(int ind)
+    public static Object getSocket(int ind)
     {
         Object resultSocket;
         
