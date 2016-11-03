@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.UnknownHostException;
 
 /**
@@ -28,6 +26,11 @@ public class ServerThread implements Runnable {
 
     private int port = 5555;
 
+    public ServerThread(Socket socket)
+    {
+        this.socket = socket;
+    }
+
     @Override
     public void run() {
         try {
@@ -39,10 +42,10 @@ public class ServerThread implements Runnable {
 
         try {
             // Creating a Socket to connect to the Router.
-            socket = new Socket();
+            //socket = new Socket();
 
-            SocketAddress address = new InetSocketAddress(routerIP, port);
-            socket.connect(address);
+            //SocketAddress address = new InetSocketAddress(routerIP, port);
+            //socket.connect(address);
 
             // Get the I/O streams.
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -56,29 +59,34 @@ public class ServerThread implements Runnable {
         try {
             // Send our address to the Router (this step could be eliminated - the Router already knows our IP).
             // This step could be used to send the identifier of the client we want to connect to.
-            out.write(address.toString());
+            //out.write(address.toString());
 
             // Get the client's IP address from the Router.
-            String clientAddress = in.readLine();
+            //String clientAddress = in.readLine();
 
             // *************************
             // Drop connection to Router
             // *************************
+            /*
             try {
                 socket.close();
             } catch (IOException e) {
                 System.out.println("Error disconnecting from Router: " + e.getMessage());
                 System.out.println("ServerThread will continue...");
-            }
+            }*/
 
             // Create a Socket for the Client based on the previous information from the Router.
             // Wait for a connection
-            Socket clientSocket = new Socket(clientAddress, port); // TODO: Change 'port' to something dynamic?
+            //Socket clientSocket = new Socket(clientAddress, port); // TODO: Change 'port' to something dynamic?
+            Socket clientSocket = socket;
 
 
             // Server thread loop
-            BufferedReader clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            BufferedWriter clientOut = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+
+            //BufferedReader clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            //BufferedWriter clientOut = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            BufferedReader clientIn = in;
+            BufferedWriter clientOut = out;
 
             String fromClient;
 
