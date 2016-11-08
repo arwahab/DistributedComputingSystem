@@ -13,7 +13,7 @@ public class Node {
         Scanner scan = new Scanner(System.in);
 
         // Creating threads with accepted connections
-        while (Running == true)
+        while (Running)
         {
             try {
                 if(scan.hasNext()) {
