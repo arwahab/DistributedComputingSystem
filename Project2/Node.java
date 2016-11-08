@@ -7,7 +7,7 @@ public class Node {
         int routerPort = 5555; // port number
         boolean Running = true;
 
-         Server server = new Server(routerPort);
+         ServerParent server = new ServerParent(routerPort);
          server.run();
 
         Scanner scan = new Scanner(System.in);
