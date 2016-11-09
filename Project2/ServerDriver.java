@@ -10,6 +10,6 @@ public class ServerDriver {
         //server.run();
 
         // And in a new thread:
-        (new Thread(new Server(PORT))).start();
+        //(new Thread(new Server(PORT))).start();
     }
 }
