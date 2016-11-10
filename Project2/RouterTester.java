@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * Created by n_jun on 11/9/2016.
  */
-public class RounterTester {
+public class RouterTester {
     private static String routerAddress = "192.168.0.111";
     private static int port=5555;
 
