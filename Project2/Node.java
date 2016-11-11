@@ -8,7 +8,7 @@ public class Node {
         boolean Running = true;
 
          ServerParent server = new ServerParent(routerPort);
-         server.run();
+         (new Thread(server)).start();
 
         Scanner scan = new Scanner(System.in);
 
@@ -17,8 +17,8 @@ public class Node {
         {
             try {
                 if(scan.hasNext()) {
-                    Client ct = new Client(5656, "10.0.0.1");
-                    ct.run();
+                    Client ct = new Client(5555, "10.99.4.47");
+                    (new Thread(ct)).start();
                 }
             }catch (Exception e) {
                 System.err.println("Unknown error has occurred.");
