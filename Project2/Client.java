@@ -20,8 +20,11 @@ public class Client implements Runnable {
         this.IP = ip;
     }
 
+    public Client(){};
+
     public void run() {
         try {
+            setAddress(); //retrieving IP address from router
             socket = new Socket(IP, Port);
             System.out.println(String.format("Connecting to %s:%d", IP, Port));
 
@@ -45,6 +48,20 @@ public class Client implements Runnable {
         } catch (IOException e) {
             System.out.println("IOException");
             System.out.println(e);
+        }
+    }
+
+    public void setAddress(){
+        try {
+            Socket routerSocket = new Socket("10.99.9.1", 5555);
+            DataOutputStream out = new DataOutputStream(routerSocket.getOutputStream());
+            DataInputStream in = new DataInputStream(routerSocket.getInputStream());
+
+            out.writeUTF("CLIENT");
+            this.IP = in.readUTF();
+
+        }catch(Exception e){
+
         }
     }
 }
