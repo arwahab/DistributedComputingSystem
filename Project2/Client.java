@@ -12,12 +12,14 @@ public class Client implements Runnable {
     // Instance variables
     static int Port;
     static String IP;
+    static int routerPort;
+    static String routerAddress;
 
     Socket socket;
 
     public Client(int port, String ip) {
-        this.Port = port;
-        this.IP = ip;
+        this.routerPort = port;
+        this.routerAddress = ip;
     }
 
     public Client() {
@@ -54,7 +56,7 @@ public class Client implements Runnable {
 
     public void setAddress() {
         try {
-            Socket routerSocket = new Socket("10.99.9.1", 5555);
+            Socket routerSocket = new Socket(this.routerAddress, this.routerPort);
             DataOutputStream out = new DataOutputStream(routerSocket.getOutputStream());
             DataInputStream in = new DataInputStream(routerSocket.getInputStream());
 

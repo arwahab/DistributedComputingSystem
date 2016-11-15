@@ -28,8 +28,7 @@ public class Node {
         go.setBounds(100, 125, 100, 40);
         go.setFont(new Font("Arial", Font.BOLD, 18));
         go.addActionListener(e -> {
-//            Client ct = new Client(5555, routerAddress);
-            Client ct = new Client();
+            Client ct = new Client(5555, routerAddress);
             (new Thread(ct)).start();
         });
         JComboBox list = new JComboBox();
