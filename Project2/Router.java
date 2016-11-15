@@ -9,12 +9,30 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Router {
-    private static List<String> routingTable = new ArrayList<>();
-    private static int portNumber = 5555; //hard code port nubmer here
+    private static List<IpPort> routingTable = new ArrayList<>();
+    private static int routerPort = 5555; //hard code port nubmer here
+
+    public static class IpPort {
+        String ipAddress;
+        int portNum;
+
+        IpPort(String ip, int port) {
+            ipAddress = ip;
+            portNum = port;
+        }
+
+        String getIp() {
+            return ipAddress;
+        }
+
+        int getPort() {
+            return portNum;
+        }
+    }
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(portNumber);
-        System.out.println("Router is listening on port: " + portNumber);
+        ServerSocket serverSocket = new ServerSocket(routerPort);
+        System.out.println("Router is listening on port: " + routerPort);
 
 
         while (true) {
@@ -24,12 +42,14 @@ public class Router {
             String inputLine = in.readUTF();
             System.out.println("request type: " + inputLine);
             String serverIpAddress;
+            int serverPortNumber;
 
             switch (inputLine) {
                 case "SERVER":
                     System.out.println("server online request");
                     serverIpAddress = in.readUTF();
-                    addIpAddress(serverIpAddress);
+                    serverPortNumber = Integer.parseInt(in.readUTF());
+                    addIpAddress(serverIpAddress, serverPortNumber);
                     System.out.println("IP Address: " + serverIpAddress + " was added to routing table");
                     break;
                 case "SERVER_OFFLINE":
@@ -40,7 +60,9 @@ public class Router {
                     break;
                 case "CLIENT":
                     System.out.println("client request");
-                    out.writeUTF(retrieveIpAdress());
+                    IpPort ipPort = retrieveIpAddress();
+                    out.writeUTF(ipPort.getIp());
+                    out.writeUTF(String.valueOf(ipPort.getPort()));
                     break;
             }
             clientSocket.close();
@@ -48,8 +70,8 @@ public class Router {
 
     }
 
-    static void addIpAddress(String serverAddress) {
-        routingTable.add(serverAddress);
+    static void addIpAddress(String serverAddress, int serverPort) {
+        routingTable.add(new IpPort(serverAddress, serverPort));
 
         //prints every contents on the routing table
         routingTable.forEach(System.out::println);
@@ -57,14 +79,14 @@ public class Router {
 
     static void removeIpAddress(String serverAddress) {
         routingTable = routingTable.stream()
-                .filter(i -> !i.equals(serverAddress))
+                .filter(i -> !i.getIp().equals(serverAddress))
                 .collect(Collectors.toList());
 
         //prints rounting table after removal
         routingTable.forEach(System.out::println);
     }
 
-    static String retrieveIpAdress() {
+    static IpPort retrieveIpAddress() {
         Random randomGenerator = new Random();
         return routingTable.get(randomGenerator.nextInt(routingTable.size()));
     }

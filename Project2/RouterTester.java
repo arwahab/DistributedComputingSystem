@@ -30,6 +30,7 @@ public class RouterTester {
                 case "1":
                     out.writeUTF("SERVER");
                     out.writeUTF("192.168.0.111");
+                    out.writeUTF("5000");
                     break;
                 case "2":
                     out.writeUTF("SERVER_OFFLINE");
@@ -37,6 +38,7 @@ public class RouterTester {
                     break;
                 case "3":
                     out.writeUTF("CLIENT");
+                    System.out.println(in.readUTF());
                     System.out.println(in.readUTF());
                     break;
             }
