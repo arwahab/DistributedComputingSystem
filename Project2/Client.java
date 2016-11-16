@@ -18,8 +18,8 @@ public class Client implements Runnable {
     Socket socket;
 
     public Client(int port, String ip) {
-        this.routerPort = port;
-        this.routerAddress = ip;
+        routerPort = port;
+        routerAddress = ip;
     }
 
     public Client() {
@@ -28,6 +28,8 @@ public class Client implements Runnable {
     public void run() {
         try {
             setAddress(); //retrieving IP address from router
+            System.out.println(IP);
+            System.out.println(Port);
             socket = new Socket(IP, Port);
             System.out.println(String.format("Connecting to %s:%d", IP, Port));
 
@@ -61,8 +63,8 @@ public class Client implements Runnable {
             DataInputStream in = new DataInputStream(routerSocket.getInputStream());
 
             out.writeUTF("CLIENT");
-            this.IP = in.readUTF();
-            this.Port = Integer.parseInt(in.readUTF());
+            IP = in.readUTF();
+            Port = Integer.parseInt(in.readUTF());
 
         } catch (Exception e) {
             e.printStackTrace();
