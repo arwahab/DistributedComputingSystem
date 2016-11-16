@@ -10,8 +10,8 @@ import java.util.Scanner;
  * Created by n_jun on 11/9/2016.
  */
 public class RouterTester {
-    private static String routerAddress = "192.168.0.111";
-    private static int port=5555;
+    private static String routerAddress = "10.99.20.123";
+    private static int port=12345; //avoid 5555
 
     public static void main(String[] args) {
         try {

@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 
 public class Router {
     private static List<IpPort> routingTable = new ArrayList<>();
-    private static int routerPort = 5555; //hard code port nubmer here
+    private static int routerPort = 12345; //hard code port nubmer here
+    private static String clientAddress;
 
     public static class IpPort {
         String ipAddress;
@@ -40,6 +41,8 @@ public class Router {
         while (true) {
             try {
                 Socket clientSocket = serverSocket.accept();
+                clientAddress = clientSocket.getInetAddress().getHostAddress();
+
                 DataInputStream in = new DataInputStream(clientSocket.getInputStream());
                 DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
                 String inputLine = in.readUTF();
@@ -93,8 +96,14 @@ public class Router {
     }
 
     static IpPort retrieveIpAddress() {
+        System.out.println(clientAddress);
         Random randomGenerator = new Random();
-        return routingTable.get(randomGenerator.nextInt(routingTable.size()));
+        IpPort ipPort = routingTable.get(randomGenerator.nextInt(routingTable.size()));
+        System.out.println("first try: "+ipPort.getIp());
+        while(ipPort.getIp().equals(clientAddress)){
+            ipPort = routingTable.get(randomGenerator.nextInt(routingTable.size()));
+            System.out.println("nth try: " +ipPort.getIp());
+        }
+        return ipPort;
     }
-
 }
