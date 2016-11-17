@@ -5,12 +5,14 @@ public class Node {
 
     private static String routerAddress;
     private static int routerPort;
+    private static int serverPort;
 
     public static void main(String[] args){
         routerAddress = JOptionPane.showInputDialog(null, "What is the address of the router?");
-        routerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "What port should you be accessed on?")); // port number
+        routerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "What port is the router listening on?"));
+        serverPort = Integer.parseInt(JOptionPane.showInputDialog(null, "What port should you be accessed on?")); // port number
 
-        ServerParent server = new ServerParent(routerPort);
+        ServerParent server = new ServerParent(serverPort, routerAddress, routerPort);
         (new Thread(server)).start();
 
         Node n = new Node();

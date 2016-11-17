@@ -12,17 +12,21 @@ import java.net.Socket;
 public class ServerParent implements Runnable {
     // Instance variables
     static int Port;
+    static int routerPort;
+    static String routerAddress;
 
     ServerSocket serverSocket;
     Socket socket;
 
-    public ServerParent(int port) {
+    public ServerParent(int port, String routerAddress, int routerPort) {
         this.Port = port;
+        this.routerAddress = routerAddress;
+        this.routerPort = routerPort;
     }
 
     public void run() {
         try{
-            Socket routerSocket = new Socket("10.99.10.98", 12345);
+            Socket routerSocket = new Socket(routerAddress, routerPort);
             DataInputStream in = new DataInputStream(routerSocket.getInputStream());
             DataOutputStream out = new DataOutputStream(routerSocket.getOutputStream());
             out.writeUTF("SERVER");
