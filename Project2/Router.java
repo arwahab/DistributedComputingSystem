@@ -69,7 +69,7 @@ public class Router {
                         serverIpAddress = in.readUTF();
                         removeIpAddress(serverIpAddress);
                         int currentSize = routingTable.size();
-                        if(previousSize == currentSize){
+                        if (previousSize == currentSize) {
                             System.out.println("No IP Address found");
                         }
                         System.out.println("IP Address: " + serverIpAddress + " was removed from routing table");
@@ -77,6 +77,10 @@ public class Router {
                     case "CLIENT":
                         System.out.println("client request");
                         IpPort ipPort = retrieveIpAddress();
+                        if (ipPort == null) {
+                            out.writeUTF("");
+                            out.writeUTF("");
+                        }
                         out.writeUTF(ipPort.getIp());
                         out.writeUTF(String.valueOf(ipPort.getPort()));
                         break;
@@ -112,7 +116,7 @@ public class Router {
     }
 
     static IpPort retrieveIpAddress() {
-        System.out.println(clientAddress);
+        System.out.println("client address: " + clientAddress);
 //        Random randomGenerator = new Random();
 //        IpPort ipPort = routingTable.get(randomGenerator.nextInt(routingTable.size()));
 //        System.out.println("first try: "+ipPort.getIp());
