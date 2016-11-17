@@ -49,7 +49,7 @@ public class Client implements Runnable {
             int index = 0;
 
             SimpleDateFormat formatter = new SimpleDateFormat("HH mm ss SSS");
-            File file = new File(formatter.format(new Date()) + ".mp3");
+            File file = new File(formatter.format(new Date()) + ".mp3"); // TODO: Change this
             file.createNewFile();
 
             FileOutputStream fos = new FileOutputStream(file);
