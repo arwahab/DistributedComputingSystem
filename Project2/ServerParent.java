@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Created by keahi on 04-Nov-16.
+ * Modified by abdul on 17-Nov-16.
  */
 
 public class ServerParent implements Runnable {
@@ -22,11 +22,12 @@ public class ServerParent implements Runnable {
 
     public void run() {
         try{
-            Socket routerSocket = new Socket("10.99.9.1", 5555);
+            Socket routerSocket = new Socket("10.99.10.98", 12345);
             DataInputStream in = new DataInputStream(routerSocket.getInputStream());
             DataOutputStream out = new DataOutputStream(routerSocket.getOutputStream());
             out.writeUTF("SERVER");
             out.writeUTF(Inet4Address.getLocalHost().getHostAddress());
+            out.writeUTF(String.valueOf(Port));
         }
         catch (Exception e){
             e.printStackTrace();
