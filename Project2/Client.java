@@ -13,16 +13,20 @@ import java.util.Date;
 
 public class Client implements Runnable {
     // Instance variables
-    static int Port;
-    static String IP;
-    static int routerPort;
-    static String routerAddress;
+    private int Port;
+    private String IP;
+    private int routerPort;
+    private String routerAddress;
+
+    private String fileName;
 
     Socket socket;
 
-    public Client(int port, String ip) {
-        routerPort = port;
-        routerAddress = ip;
+    public Client(int port, String ip, String file) {
+        Port = port;
+        IP = ip;
+
+        fileName = file;
     }
 
     public Client() {
@@ -30,7 +34,7 @@ public class Client implements Runnable {
 
     public void run() {
         try {
-            setAddress(); //retrieving IP address from router
+            //setAddress(); //retrieving IP address from router
             System.out.println(IP);
             System.out.println(Port);
             socket = new Socket(IP, Port);

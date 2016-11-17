@@ -43,7 +43,7 @@ public class Server implements Runnable {
             String filePath = fileToSend.getPath();
 
             int extIndex = filePath.length() - 2;
-            while (!filePath.substring(extIndex, extIndex - 1).equals("."))
+            while (!filePath.substring(extIndex, extIndex + 1).equals("."))
             {
                 extIndex--;
             }
