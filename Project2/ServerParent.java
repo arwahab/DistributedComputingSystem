@@ -6,27 +6,32 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Created by keahi on 04-Nov-16.
+ * Modified by abdul on 17-Nov-16.
  */
 
 public class ServerParent implements Runnable {
     // Instance variables
     static int Port;
+    static int routerPort;
+    static String routerAddress;
 
     ServerSocket serverSocket;
     Socket socket;
 
-    public ServerParent(int port) {
+    public ServerParent(int port, String routerAddress, int routerPort) {
         this.Port = port;
+        this.routerAddress = routerAddress;
+        this.routerPort = routerPort;
     }
 
     public void run() {
         try{
-            Socket routerSocket = new Socket("10.99.9.1", 5555);
+            Socket routerSocket = new Socket(routerAddress, routerPort);
             DataInputStream in = new DataInputStream(routerSocket.getInputStream());
             DataOutputStream out = new DataOutputStream(routerSocket.getOutputStream());
             out.writeUTF("SERVER");
             out.writeUTF(Inet4Address.getLocalHost().getHostAddress());
+            out.writeUTF(String.valueOf(Port));
         }
         catch (Exception e){
             e.printStackTrace();
