@@ -33,7 +33,7 @@ public class Router {
 
         @Override
         public String toString() {
-            return "IP Address: " + ipAddress + "/n "+"Port Number" + portNum;
+            return String.format("IP address: %s\nPort Number: %d", ipAddress, portNum);
         }
     }
 
@@ -65,8 +65,13 @@ public class Router {
                         break;
                     case "SERVER_OFFLINE":
                         System.out.println("server offline request");
+                        int previousSize = routingTable.size();
                         serverIpAddress = in.readUTF();
                         removeIpAddress(serverIpAddress);
+                        int currentSize = routingTable.size();
+                        if(previousSize == currentSize){
+                            System.out.println("No IP Address found");
+                        }
                         System.out.println("IP Address: " + serverIpAddress + " was removed from routing table");
                         break;
                     case "CLIENT":
@@ -88,7 +93,10 @@ public class Router {
         routingTable.add(new IpPort(serverAddress, serverPort));
 
         //prints every contents on the routing table
+        System.out.println("Contents of routing table");
+        System.out.println("------------------");
         routingTable.forEach(System.out::println);
+        System.out.println("------------------");
     }
 
     static void removeIpAddress(String serverAddress) {
@@ -97,7 +105,10 @@ public class Router {
                 .collect(Collectors.toList());
 
         //prints rounting table after removal
+        System.out.println("Contents of routing table");
+        System.out.println("------------------");
         routingTable.forEach(System.out::println);
+        System.out.println("------------------");
     }
 
     static IpPort retrieveIpAddress() {
