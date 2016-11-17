@@ -30,6 +30,11 @@ public class Router {
         int getPort() {
             return portNum;
         }
+
+        @Override
+        public String toString() {
+            return "IP Address: " + ipAddress + "/n "+"Port Number" + portNum;
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -72,7 +77,7 @@ public class Router {
                         break;
                 }
                 clientSocket.close();
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e);
             }
@@ -97,13 +102,18 @@ public class Router {
 
     static IpPort retrieveIpAddress() {
         System.out.println(clientAddress);
-        Random randomGenerator = new Random();
-        IpPort ipPort = routingTable.get(randomGenerator.nextInt(routingTable.size()));
-        System.out.println("first try: "+ipPort.getIp());
-        while(ipPort.getIp().equals(clientAddress)){
-            ipPort = routingTable.get(randomGenerator.nextInt(routingTable.size()));
-            System.out.println("nth try: " +ipPort.getIp());
+//        Random randomGenerator = new Random();
+//        IpPort ipPort = routingTable.get(randomGenerator.nextInt(routingTable.size()));
+//        System.out.println("first try: "+ipPort.getIp());
+//        while(ipPort.getIp().equals(clientAddress)){
+//            ipPort = routingTable.get(randomGenerator.nextInt(routingTable.size()));
+//            System.out.println("nth try: " +ipPort.getIp());
+//        }
+        for (IpPort ipPort : routingTable) {
+            if (!ipPort.getIp().equals(clientAddress)) {
+                return ipPort;
+            }
         }
-        return ipPort;
+        return null;
     }
 }
