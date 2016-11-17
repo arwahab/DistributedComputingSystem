@@ -43,10 +43,8 @@ public class Client implements Runnable {
             int fileSize = in.readInt();
             int bufferSize = in.readInt();
 
-            int numberOfByteArrays = (int) fileSize / bufferSize;
-            int remainderBytes = (int) fileSize % bufferSize;
-
-            int index = 0;
+            int numberOfByteArrays = fileSize / bufferSize;
+            int remainderBytes = fileSize % bufferSize;
 
             SimpleDateFormat formatter = new SimpleDateFormat("HH mm ss SSS");
             File file = new File(formatter.format(new Date()) + ".mp3"); // TODO: Change this
@@ -57,44 +55,18 @@ public class Client implements Runnable {
             for (int i = 0; i < numberOfByteArrays; i++)
             {
                 byte[] buffer = new byte[bufferSize];
-                in.read(buffer, index, bufferSize);
+                in.read(buffer, 0, bufferSize);
                 fos.write(buffer);
-
-                index += bufferSize;
             }
 
             // Get the remainder
             byte[] buffer = new byte[remainderBytes];
             
-            in.read(buffer, index, remainderBytes);
+            in.read(buffer, 0, remainderBytes);
             fos.write(buffer);
 
             fos.close();
 
-            // Get input from the user (to send to the server)
-            /*
-            Scanner scanner = new Scanner(System.in);
-            String nextLine = scanner.nextLine();
-
-            byte[] nextData;
-            */
-
-            // Client loop
-            /*
-            while (true) {
-                nextData = new byte[BUFFER_SIZE];
-                in.read(nextData, 0, BUFFER_SIZE);
-
-                System.out.println("Received bytes...");
-
-                //System.out.println(String.format("Sending: \"%s\"", nextLine));
-
-                //out.writeUTF(nextLine);
-                //System.out.println(in.readUTF());
-
-                //nextLine = scanner.nextLine();
-            }
-            */
         } catch (IOException e) {
             System.out.println("IOException");
             System.out.println(e);
