@@ -49,17 +49,19 @@ public class Server implements Runnable {
             for (int i = 0; i < numberOfByteArrays; i++)
             {
                 byte[] fileBuffer = new byte[BUFFER_SIZE];
-                fis.read(fileBuffer, fileIndex, BUFFER_SIZE);
+                fis.read(fileBuffer, 0, BUFFER_SIZE);
 
                 out.write(fileBuffer);
                 fileIndex += BUFFER_SIZE;
+
+                System.out.println("Sent bytes " + fileIndex);
             }
 
             // Send the remaining bytes
             if (remainderBytes > 0)
             {
                 byte[] remainder = new byte[remainderBytes];
-                fis.read(remainder, fileIndex, remainderBytes);
+                fis.read(remainder, 0, remainderBytes);
 
                 out.write(remainder);
             }
