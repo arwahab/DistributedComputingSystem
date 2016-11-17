@@ -42,12 +42,13 @@ public class Client implements Runnable {
 
             int fileSize = in.readInt();
             int bufferSize = in.readInt();
+            String extension = in.readUTF();
 
             int numberOfByteArrays = fileSize / bufferSize;
             int remainderBytes = fileSize % bufferSize;
 
             SimpleDateFormat formatter = new SimpleDateFormat("HH mm ss SSS");
-            File file = new File(formatter.format(new Date()) + ".mp3"); // TODO: Change this
+            File file = new File(formatter.format(new Date()) + extension); // TODO: Change this
             file.createNewFile();
 
             FileOutputStream fos = new FileOutputStream(file);
