@@ -30,7 +30,7 @@ public class ServerParent implements Runnable {
             DataInputStream in = new DataInputStream(routerSocket.getInputStream());
             DataOutputStream out = new DataOutputStream(routerSocket.getOutputStream());
             out.writeUTF("SERVER");
-            out.writeUTF(Inet4Address.getLocalHost().getHostAddress());
+            out.writeUTF(Inet4Address.getLocalHost().getHostAddress().toString());
             out.writeUTF(String.valueOf(Port));
         }
         catch (Exception e){
@@ -47,7 +47,7 @@ public class ServerParent implements Runnable {
                 System.out.println(String.format("Connected to %s", socket.getInetAddress()));
 
                 System.out.println("Sending Socket object to new Server thread");
-                //(new Thread(new Server(socket))).start();
+                (new Thread(new Server(socket))).start();
                 serverSocket.close();
             } catch (IOException e) {
                 System.out.println("IOException in ServerParent");
