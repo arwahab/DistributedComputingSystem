@@ -6,12 +6,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Router {
     private static List<IpPort> routingTable = new ArrayList<>();
     private static int routerPort; //hard code port nubmer here
     private static String clientAddress;
+    private static int otherPort;
+    private static String otherAddress;
 
     public static class IpPort {
         String ipAddress;
@@ -38,7 +41,9 @@ public class Router {
 
     public static void main(String[] args) throws IOException {
 
-        routerPort = Integer.parseInt(JOptionPane.showInputDialog(null,"Router Port"));
+        routerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Router Port"));
+        otherAddress = JOptionPane.showInputDialog(null, "Other Address");
+        otherPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Other router Port"));
         ServerSocket serverSocket = new ServerSocket(routerPort);
         System.out.println("Router is listening on port: " + routerPort);
 
@@ -85,6 +90,17 @@ public class Router {
                         out.writeUTF(ipPort.getIp());
                         out.writeUTF(String.valueOf(ipPort.getPort()));
                         break;
+                    case "SWITCH_ROUTER":
+                        System.out.println("client request");
+                        IpPort ipPortFromOtherCluster = retrieveForOtherCluster();
+                        if (ipPortFromOtherCluster == null) {
+                            out.writeUTF("");
+                            out.writeUTF("");
+                        }
+                        out.writeUTF(ipPortFromOtherCluster.getIp());
+                        out.writeUTF(String.valueOf(ipPortFromOtherCluster.getPort()));
+                        break;
+
                 }
                 clientSocket.close();
             } catch (Exception e) {
@@ -117,14 +133,25 @@ public class Router {
     }
 
     static IpPort retrieveIpAddress() {
+        Random random = new Random();
+        int randomInt = random.nextInt(1);
+
+        if (routingTable.size() == 1 || randomInt == 1) {
+            return switchRouter();
+        }
+        if (randomInt == 0) {
+            System.out.println("client address: " + clientAddress);
+            for (IpPort ipPort : routingTable) {
+                if (!ipPort.getIp().equals(clientAddress)) {
+                    return ipPort;
+                }
+            }
+        }
+        return null;
+    }
+
+    static IpPort retrieveForOtherCluster() {
         System.out.println("client address: " + clientAddress);
-//        Random randomGenerator = new Random();
-//        IpPort ipPort = routingTable.get(randomGenerator.nextInt(routingTable.size()));
-//        System.out.println("first try: "+ipPort.getIp());
-//        while(ipPort.getIp().equals(clientAddress)){
-//            ipPort = routingTable.get(randomGenerator.nextInt(routingTable.size()));
-//            System.out.println("nth try: " +ipPort.getIp());
-//        }
         for (IpPort ipPort : routingTable) {
             if (!ipPort.getIp().equals(clientAddress)) {
                 return ipPort;
@@ -132,4 +159,23 @@ public class Router {
         }
         return null;
     }
+
+    static IpPort switchRouter() {
+        String ip = "";
+        String port = "";
+        try {
+            Socket socket = new Socket(otherAddress, otherPort);
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
+            out.writeUTF("SWITCH_ROUTER");
+            ip = in.readUTF();
+            port = in.readUTF();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new IpPort(ip, Integer.parseInt(port));
+    }
+
 }
