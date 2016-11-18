@@ -35,8 +35,7 @@ public class RouterTester {
                     break;
                 case "2":
                     out.writeUTF("SERVER_OFFLINE");
-//                    out.writeUTF(Inet4Address.getLocalHost().getHostAddress());
-                    out.writeUTF("192.168.0.111");
+                    out.writeUTF(Inet4Address.getLocalHost().getHostAddress());
                     break;
                 case "3":
                     out.writeUTF("CLIENT");
