@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -5,13 +6,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Exchanger;
 import java.util.stream.Collectors;
 
 public class Router {
     private static List<IpPort> routingTable = new ArrayList<>();
-    private static int routerPort = 12345; //hard code port nubmer here
+    private static int routerPort; //hard code port nubmer here
     private static String clientAddress;
 
     public static class IpPort {
@@ -39,6 +38,7 @@ public class Router {
 
     public static void main(String[] args) throws IOException {
 
+        routerPort = Integer.parseInt(JOptionPane.showInputDialog(null,"Router Port"));
         ServerSocket serverSocket = new ServerSocket(routerPort);
         System.out.println("Router is listening on port: " + routerPort);
 
@@ -51,6 +51,7 @@ public class Router {
                 DataInputStream in = new DataInputStream(clientSocket.getInputStream());
                 DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
                 String inputLine = in.readUTF();
+                System.out.println("clientAddress: " + clientAddress);
                 System.out.println("request type: " + inputLine);
                 String serverIpAddress;
                 int serverPortNumber;
