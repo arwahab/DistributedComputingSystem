@@ -14,11 +14,9 @@ public class Server implements Runnable {
     static final int BUFFER_SIZE = 8192;
 
     Socket socket;
-    File fileToSend;
 
-    public Server(Socket socket, File file) {
+    public Server(Socket socket) {
         this.socket = socket;
-        this.fileToSend = file;
     }
 
     public void run() {
@@ -26,6 +24,9 @@ public class Server implements Runnable {
             // Get the input and output streams
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
+            String filePathToSend = in.readUTF(); // Read a string formatted like "file.ext", located in resources/file.ext
+            File fileToSend = new File("resources/" + filePathToSend);
 
             if (!fileToSend.exists())
             {
