@@ -23,8 +23,8 @@ public class Client implements Runnable {
     Socket socket;
 
     public Client(int port, String ip, String file) {
-        Port = port;
-        IP = ip;
+        routerPort = port;
+        routerAddress = ip;
 
         fileName = file;
     }
@@ -34,7 +34,7 @@ public class Client implements Runnable {
 
     public void run() {
         try {
-            //setAddress(); //retrieving IP address from router
+            setAddress(); //retrieving IP address from router
             System.out.println(IP);
             System.out.println(Port);
             socket = new Socket(IP, Port);
@@ -44,6 +44,8 @@ public class Client implements Runnable {
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
+            out.writeUTF(fileName);
+
             int fileSize = in.readInt();
             int bufferSize = in.readInt();
             String extension = in.readUTF();
@@ -52,7 +54,7 @@ public class Client implements Runnable {
             int remainderBytes = fileSize % bufferSize;
 
             SimpleDateFormat formatter = new SimpleDateFormat("HH mm ss SSS");
-            File file = new File(formatter.format(new Date()) + extension); // TODO: Change this
+            File file = new File(formatter.format(new Date()) + extension);
             file.createNewFile();
 
             FileOutputStream fos = new FileOutputStream(file);
