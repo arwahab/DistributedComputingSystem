@@ -13,16 +13,20 @@ import java.util.Date;
 
 public class Client implements Runnable {
     // Instance variables
-    static int Port;
-    static String IP;
-    static int routerPort;
-    static String routerAddress;
+    private int Port;
+    private String IP;
+    private int routerPort;
+    private String routerAddress;
+
+    private String fileName;
 
     Socket socket;
 
-    public Client(int port, String ip) {
-        routerPort = port;
-        routerAddress = ip;
+    public Client(int port, String ip, String file) {
+        Port = port;
+        IP = ip;
+
+        fileName = file;
     }
 
     public Client() {
@@ -30,7 +34,7 @@ public class Client implements Runnable {
 
     public void run() {
         try {
-            setAddress(); //retrieving IP address from router
+            //setAddress(); //retrieving IP address from router
             System.out.println(IP);
             System.out.println(Port);
             socket = new Socket(IP, Port);
@@ -42,12 +46,13 @@ public class Client implements Runnable {
 
             int fileSize = in.readInt();
             int bufferSize = in.readInt();
+            String extension = in.readUTF();
 
             int numberOfByteArrays = fileSize / bufferSize;
             int remainderBytes = fileSize % bufferSize;
 
             SimpleDateFormat formatter = new SimpleDateFormat("HH mm ss SSS");
-            File file = new File(formatter.format(new Date()) + ".mp3"); // TODO: Change this
+            File file = new File(formatter.format(new Date()) + extension); // TODO: Change this
             file.createNewFile();
 
             FileOutputStream fos = new FileOutputStream(file);

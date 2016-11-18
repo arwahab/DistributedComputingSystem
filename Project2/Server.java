@@ -39,12 +39,24 @@ public class Server implements Runnable {
             int numberOfByteArrays = (int) fileSize / BUFFER_SIZE; // Number of FULL byte arrays to send
             int remainderBytes = (int) fileSize % BUFFER_SIZE; // The remaining bytes, if it doesn't divide nicely
 
+            String fileExtension;
+            String filePath = fileToSend.getPath();
+
+            int extIndex = filePath.length() - 2;
+            while (!filePath.substring(extIndex, extIndex + 1).equals("."))
+            {
+                extIndex--;
+            }
+
+            fileExtension = filePath.substring(extIndex);
+
             FileInputStream fis = new FileInputStream(fileToSend);
 
             // Send the file's statistics (total bytes, buffer size).
             // From this, the client can calculate everything we need to know.
             out.writeInt(fileSize);
             out.writeInt(BUFFER_SIZE);
+            out.writeUTF(fileExtension);
 
             for (int i = 0; i < numberOfByteArrays; i++)
             {
