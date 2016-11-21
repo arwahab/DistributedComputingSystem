@@ -62,11 +62,16 @@ public class Client implements Runnable {
             {
                 begin = System.currentTimeMillis();
                 byte[] buffer = new byte[bufferSize];
+
+                while (in.available() < bufferSize) ;
+
                 in.read(buffer, 0, bufferSize);
                 end = System.currentTimeMillis();
                 fos.write(buffer);
                 text.println(end - begin);
             }
+
+            text.close();
 
             // Get the remainder
             byte[] buffer = new byte[remainderBytes];

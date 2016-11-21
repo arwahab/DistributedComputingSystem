@@ -11,7 +11,7 @@ import java.net.Socket;
  */
 
 public class Server implements Runnable {
-    static final int BUFFER_SIZE = 8192;
+    static final int BUFFER_SIZE = 8196;
 
     Socket socket;
 
