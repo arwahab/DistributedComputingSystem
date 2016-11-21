@@ -38,14 +38,10 @@ public class Node {
         remove.setBounds(50, 200, 200, 40);
         remove.setFont(new Font("Arial", Font.BOLD, 18));
         JComboBox list = new JComboBox();
-        list.addItem("song.mp3");
-        list.addItem("song2");
-        list.addItem("song3");
-        list.addItem("song4");
-        list.addItem("song5");
-        list.addItem("song6");
-        list.addItem("song7");
-        list.addItem("song8");
+        list.addItem("Fade to Black.mp3");
+        list.addItem("Imperial.mp3");
+        list.addItem("Mad Mike.mp4");
+        list.addItem("Sickness.mp3");
         list.setBounds(50, 75, 200, 30);
         list.setFont(new Font("Arial", Font.PLAIN, 14));
         JLabel heading = new JLabel("Pick your file:", SwingConstants.CENTER);
