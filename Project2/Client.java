@@ -1,8 +1,4 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,11 +55,17 @@ public class Client implements Runnable {
 
             FileOutputStream fos = new FileOutputStream(file);
 
+            PrintWriter text = new PrintWriter(new File(formatter.format(new Date())));
+            long begin, end;
+
             for (int i = 0; i < numberOfByteArrays; i++)
             {
+                begin = System.currentTimeMillis();
                 byte[] buffer = new byte[bufferSize];
                 in.read(buffer, 0, bufferSize);
+                end = System.currentTimeMillis();
                 fos.write(buffer);
+                text.println(end - begin);
             }
 
             // Get the remainder
