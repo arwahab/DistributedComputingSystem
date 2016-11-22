@@ -30,12 +30,18 @@ public class Client implements Runnable {
 
     public void run() {
         try {
+            SimpleDateFormat formatter = new SimpleDateFormat("HH mm ss SSS");
+
             long routerLookUpTimeStart = System.nanoTime();
             setAddress(); //retrieving IP address from router
             long routerLookUpTimeEnd = System.nanoTime();
             long routerLookupTime = routerLookUpTimeEnd - routerLookUpTimeStart;
             System.out.println("Router Look up time: " + routerLookupTime);
-            PrintWriter routerLookUpTimePrintWriter = new PrintWriter(new Date()+"_router_lookup_time.txt","UTF-8");
+
+            File routerLookupFile = new File(formatter.format(new Date()) + "_router_lookup_time.txt");
+            routerLookupFile.createNewFile();
+
+            PrintWriter routerLookUpTimePrintWriter = new PrintWriter(routerLookupFile);
             routerLookUpTimePrintWriter.println("Router Look up time: " + routerLookupTime);
             routerLookUpTimePrintWriter.close();
 
@@ -57,7 +63,6 @@ public class Client implements Runnable {
             int numberOfByteArrays = fileSize / bufferSize;
             int remainderBytes = fileSize % bufferSize;
 
-            SimpleDateFormat formatter = new SimpleDateFormat("HH mm ss SSS");
             File file = new File(formatter.format(new Date()) + extension);
             file.createNewFile();
 
