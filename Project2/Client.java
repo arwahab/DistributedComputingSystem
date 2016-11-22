@@ -30,7 +30,12 @@ public class Client implements Runnable {
 
     public void run() {
         try {
+            long routerLookUpTimeStart = System.nanoTime();
             setAddress(); //retrieving IP address from router
+            long routerLookUpTimeEnd = System.nanoTime();
+            long routerLookupTime = routerLookUpTimeEnd-routerLookUpTimeStart;
+            System.out.println("Router Look up time: "+ routerLookupTime);
+
             System.out.println(IP);
             System.out.println(Port);
             socket = new Socket(IP, Port);
