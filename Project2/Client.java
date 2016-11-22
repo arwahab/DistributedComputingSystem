@@ -33,8 +33,8 @@ public class Client implements Runnable {
             long routerLookUpTimeStart = System.nanoTime();
             setAddress(); //retrieving IP address from router
             long routerLookUpTimeEnd = System.nanoTime();
-            long routerLookupTime = routerLookUpTimeEnd-routerLookUpTimeStart;
-            System.out.println("Router Look up time: "+ routerLookupTime);
+            long routerLookupTime = routerLookUpTimeEnd - routerLookUpTimeStart;
+            System.out.println("Router Look up time: " + routerLookupTime);
 
             System.out.println(IP);
             System.out.println(Port);
@@ -60,11 +60,10 @@ public class Client implements Runnable {
 
             FileOutputStream fos = new FileOutputStream(file);
 
-            PrintWriter text = new PrintWriter(new File(formatter.format(new Date())));
+            PrintWriter text = new PrintWriter(new File(formatter.format(new Date()) + ".txt"));
             long begin, end;
 
-            for (int i = 0; i < numberOfByteArrays; i++)
-            {
+            for (int i = 0; i < numberOfByteArrays; i++) {
                 begin = System.nanoTime();
                 byte[] buffer = new byte[bufferSize];
 
@@ -80,7 +79,7 @@ public class Client implements Runnable {
 
             // Get the remainder
             byte[] buffer = new byte[remainderBytes];
-            
+
             in.read(buffer, 0, remainderBytes);
             fos.write(buffer);
 
