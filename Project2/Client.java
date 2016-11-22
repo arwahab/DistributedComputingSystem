@@ -35,6 +35,9 @@ public class Client implements Runnable {
             long routerLookUpTimeEnd = System.nanoTime();
             long routerLookupTime = routerLookUpTimeEnd - routerLookUpTimeStart;
             System.out.println("Router Look up time: " + routerLookupTime);
+            PrintWriter routerLookUpTimePrintWriter = new PrintWriter(new Date()+"_router_lookup_time.txt","UTF-8");
+            routerLookUpTimePrintWriter.println("Router Look up time: " + routerLookupTime);
+            routerLookUpTimePrintWriter.close();
 
             System.out.println(IP);
             System.out.println(Port);
