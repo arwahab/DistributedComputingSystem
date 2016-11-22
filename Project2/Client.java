@@ -65,13 +65,13 @@ public class Client implements Runnable {
 
             for (int i = 0; i < numberOfByteArrays; i++)
             {
-                begin = System.currentTimeMillis();
+                begin = System.nanoTime();
                 byte[] buffer = new byte[bufferSize];
 
                 while (in.available() < bufferSize) ;
 
                 in.read(buffer, 0, bufferSize);
-                end = System.currentTimeMillis();
+                end = System.nanoTime();
                 fos.write(buffer);
                 text.println(end - begin);
             }
